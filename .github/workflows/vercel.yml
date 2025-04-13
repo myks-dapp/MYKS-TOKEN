@@ -20,8 +20,8 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          npm install
-          npm install jspdf-autotable
+          npm install --legacy-peer-deps
+          npm install jspdf-autotable --save
           npm install tailwindcss postcss autoprefixer --save-dev
           npx tailwindcss init -p
 
