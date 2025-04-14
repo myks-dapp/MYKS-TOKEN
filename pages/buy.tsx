@@ -49,6 +49,14 @@ export default function BuyPage() {
 
   const totalMatic = phase && amount ? (amount * phase.price).toFixed(2) : '0'
 
+  if (!token || !saleContract) {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-6 bg-white">
+        <p className="text-gray-500">Loading contracts...</p>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-white">
       <h1 className="text-3xl font-bold text-center text-green-700 mb-6">Buy MYKS Tokens</h1>
