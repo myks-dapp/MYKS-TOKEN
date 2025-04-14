@@ -8,7 +8,6 @@ const Page = () => {
   const [distributions, setDistributions] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
-  // Inisialisasi kontrak
   const { contract } = useContract("0x233C286dc2Dd6baAA4597CffBcC9080Cb96452a1");
 
   const fetchHistory = async () => {
@@ -16,18 +15,15 @@ const Page = () => {
 
     setLoading(true);
     try {
-      // Menangani query event secara langsung tanpa filter (menggunakan queryFilter)
-      const events = await contract.queryFilter({
-        address: contract.address, // Alamat kontrak
-        topics: [contract.interface.getEventTopic("ProfitDistributed")], // Topik untuk event yang diinginkan
-      });
+      // Ambil semua event "ProfitDistributed" via Thirdweb
+      const events = await contract.events.getEvents("ProfitDistributed");
 
       const history = events.map((event) => {
-        const { to, amount } = event.args as any;
+        const { to, amount } = event.data;
         return {
           to,
-          amount: parseFloat(amount.toString()) / 1e6, // Mengonversi amount ke format yang benar
-          timestamp: event.blockNumber, // Timestamp atau block number
+          amount: parseFloat(amount.toString()) / 1e6,
+          timestamp: event.transaction.blockNumber,
         };
       });
 
