@@ -13,24 +13,21 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Setup Node.js 18
+      - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '20'
+          node-version: '18' # gunakan 18 agar stabil + legacy support
 
-      - name: Install Dependencies
+      - name: Install Dependencies (Legacy Compatible)
         run: |
           npm install --legacy-peer-deps
-          npm install react-toastify --legacy-peer-deps
-          npm install postcss-cli tailwindcss autoprefixer
-          npx tailwindcss init -p
-          npm install lucide-react --legacy-peer-deps
-          npm install jspdf-autotable --legacy-peer-deps
+          npm install react-toastify postcss-cli tailwindcss autoprefixer lucide-react jspdf-autotable --legacy-peer-deps
+          npx tailwindcss init -p || true # hindari error jika sudah ada
 
       - name: Build Project
         run: npm run build
 
-      - name: Deploy to Vercel (Legacy)
+      - name: Deploy to Vercel
         uses: amondnet/vercel-action@v20
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
