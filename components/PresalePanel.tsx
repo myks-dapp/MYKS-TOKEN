@@ -7,29 +7,29 @@ const phases = [
   {
     name: 'Presale Phase 1',
     start: new Date('2025-05-01T00:00:00Z').getTime(),
-    end: new Date('2025-05-09T23:59:59Z').getTime(),
-    price: '0.5 MATIC',
+    end: new Date('2025-05-10T23:59:59Z').getTime(),
+    price: '0.05 MATIC', // setara IDR 1,000
   },
   {
     name: 'Presale Phase 2',
-    start: new Date('2025-05-10T00:00:00Z').getTime(),
-    end: new Date('2025-05-19T23:59:59Z').getTime(),
-    price: '2 MATIC',
+    start: new Date('2025-05-11T00:00:00Z').getTime(),
+    end: new Date('2025-05-20T23:59:59Z').getTime(),
+    price: '0.25 MATIC', // setara IDR 5,000
   },
   {
     name: 'Presale Phase 3',
-    start: new Date('2025-05-20T00:00:00Z').getTime(),
-    end: new Date('2025-05-24T23:59:59Z').getTime(),
-    price: '5 MATIC',
+    start: new Date('2025-05-21T00:00:00Z').getTime(),
+    end: new Date('2025-05-31T23:59:59Z').getTime(),
+    price: '0.5 MATIC', // setara IDR 10,000
   },
 ]
 
 const getCurrentPhase = (now: number) => {
   for (const phase of phases) {
-    if (now < phase.start) return { status: 'upcoming', phase }
-    if (now >= phase.start && now <= phase.end) return { status: 'active', phase }
+    if (now < phase.start) return { status: 'upcoming' as const, phase }
+    if (now >= phase.start && now <= phase.end) return { status: 'active' as const, phase }
   }
-  return { status: 'ended', phase: null }
+  return { status: 'ended' as const, phase: null }
 }
 
 const PresalePanel = () => {
@@ -69,12 +69,10 @@ const PresalePanel = () => {
         </div>
       ) : (
         <>
-          {/* PHASE STATUS */}
           <h2 className="text-xl font-semibold text-gray-800 mb-2">
             {status === 'upcoming' ? 'Next Phase:' : 'Ongoing:'} {currentPhase?.name}
           </h2>
 
-          {/* COUNTDOWN */}
           <div className="flex justify-center gap-3 text-white text-base font-bold mb-3">
             <div className="bg-red-600 px-3 py-1 rounded-xl">{timeLeft.d}d</div>
             <div className="bg-yellow-400 text-black px-3 py-1 rounded-xl">{timeLeft.h}h</div>
@@ -82,12 +80,10 @@ const PresalePanel = () => {
             <div className="bg-blue-600 px-3 py-1 rounded-xl">{timeLeft.s}s</div>
           </div>
 
-          {/* PRICE DISPLAY */}
           <p className="text-sm text-gray-600 mb-4">
             Token Price: <strong>{currentPhase?.price}</strong> per MYKS
           </p>
 
-          {/* ACTION BUTTON */}
           {status === 'active' ? (
             <Link
               href="/buy"
