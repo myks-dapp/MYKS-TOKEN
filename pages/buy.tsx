@@ -3,7 +3,6 @@
 import {
   useAddress,
   useContract,
-  useContractWrite,
   useToken,
   useTokenBalance,
   Web3Button,
@@ -32,10 +31,10 @@ export default function BuyPage() {
   const connect = useMetamask()
   const { contract: token } = useToken(TOKEN_CONTRACT)
   const { data: balance } = useTokenBalance(token, address)
-  const { contract } = useContract(SALE_CONTRACT)
+  const { contract: saleContract } = useContract(SALE_CONTRACT)
 
   const [phase, setPhase] = useState<any>(null)
-  const [amount, setAmount] = useState(1)
+  const [amount, setAmount] = useState<number>(1)
 
   useEffect(() => {
     const now = Date.now()
@@ -43,7 +42,12 @@ export default function BuyPage() {
     setPhase(current)
   }, [])
 
-  const totalMatic = phase ? (amount * phase.price).toFixed(2) : '0'
+  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Number(e.target.value)
+    if (value >= 1) setAmount(value)
+  }
+
+  const totalMatic = phase && amount ? (amount * phase.price).toFixed(2) : '0'
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-white">
@@ -68,7 +72,7 @@ export default function BuyPage() {
               <input
                 type="number"
                 value={amount}
-                onChange={(e) => setAmount(Number(e.target.value))}
+                onChange={handleAmountChange}
                 min={1}
                 className="border px-4 py-2 rounded-lg w-full max-w-xs text-center mb-4"
               />
