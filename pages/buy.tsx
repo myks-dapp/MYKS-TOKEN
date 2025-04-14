@@ -10,8 +10,8 @@ import {
 } from '@thirdweb-dev/react'
 import { useEffect, useState } from 'react'
 
-const SALE_CONTRACT = '0xdE36A031F39515E5A4D2700cbCc8837045667Dd7' // MYKSSale final
-const TOKEN_CONTRACT = '0xbae14e5a05030f6Bcff900Be3C02A260C96e5D6c' // MYKS Token
+const SALE_CONTRACT = '0xdE36A031F39515E5A4D2700cbCc8837045667Dd7'
+const TOKEN_CONTRACT = '0xbae14e5a05030f6Bcff900Be3C02A260C96e5D6c'
 
 const phases = [
   { name: 'Presale Phase 1', start: new Date('2025-05-01T00:00:00Z').getTime(), end: new Date('2025-05-09T23:59:59Z').getTime(), price: 0.5 },
@@ -29,8 +29,8 @@ const getCurrentPhase = (now: number) => {
 export default function BuyPage() {
   const address = useAddress()
   const connect = useMetamask()
-  const { contract: token } = useToken(TOKEN_CONTRACT)
-  const { data: balance } = useTokenBalance(token, address)
+  const token = useToken(TOKEN_CONTRACT)
+  const { data: balance } = useTokenBalance(token?.contract, address)
   const { contract: saleContract } = useContract(SALE_CONTRACT)
 
   const [phase, setPhase] = useState<any>(null)
@@ -49,7 +49,7 @@ export default function BuyPage() {
 
   const totalMatic = phase && amount ? (amount * phase.price).toFixed(2) : '0'
 
-  if (!token || !saleContract) {
+  if (!token?.contract || !saleContract) {
     return (
       <div className="min-h-screen flex items-center justify-center p-6 bg-white">
         <p className="text-gray-500">Loading contracts...</p>
