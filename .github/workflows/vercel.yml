@@ -21,10 +21,11 @@ jobs:
       - name: Install Dependencies
         run: |
           npm install --legacy-peer-deps
-          npm install lucide-react
-          npm install jspdf-autotable --save
+          npm install react-toastify --legacy-peer-deps
           npm install postcss-cli tailwindcss autoprefixer
           npx tailwindcss init -p
+          npm install lucide-react --legacy-peer-deps
+          npm install jspdf-autotable --legacy-peer-deps
 
       - name: Build Project
         run: npm run build
