@@ -29,8 +29,8 @@ const getCurrentPhase = (now: number) => {
 export default function BuyPage() {
   const address = useAddress()
   const connect = useMetamask()
-  const token = useToken(TOKEN_CONTRACT)
-  const { data: balance } = useTokenBalance(token?.contract, address)
+  const { contract: tokenContract } = useToken(TOKEN_CONTRACT)
+const { data: balance } = useTokenBalance(tokenContract, address)
   const { contract: saleContract } = useContract(SALE_CONTRACT)
 
   const [phase, setPhase] = useState<any>(null)
