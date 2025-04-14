@@ -1,18 +1,17 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useContract } from "@thirdweb-dev/react";
 import { toast } from "sonner";
 import { CSVLink } from "react-csv";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 
-const CONTRACT_ADDRESS = "0x233C286dc2Dd6baAA4597CffBcC908C03fA4EEFC";
+const CONTRACT_ADDRESS = "0x233C286dc2Dd6baAA4597CffBcC9080Cb96452a1";
 
 export default function DistributionHistory() {
   const { contract } = useContract(CONTRACT_ADDRESS);
   const [distributions, setDistributions] = useState<any[]>([]);
-  const [filtered, setFiltered] = useState<any[]>([]);
   const [search, setSearch] = useState("");
   const [minAmount, setMinAmount] = useState("");
   const [loading, setLoading] = useState(false);
@@ -22,7 +21,10 @@ export default function DistributionHistory() {
 
     try {
       setLoading(true);
-      const events = await contract.queryFilter("ProfitDistributed");
+
+      const filter = contract.getContractWrapper().contract.filters.ProfitDistributed();
+      const events = await contract.getContractWrapper().contract.queryFilter(filter);
+
       const history = events.map((event) => ({
         amount: (parseInt(event.args[0]) / 1e6).toFixed(2),
         ipfsUrl: event.args[1],
@@ -30,9 +32,8 @@ export default function DistributionHistory() {
       }));
 
       setDistributions(history);
-      setFiltered(history);
     } catch (err) {
-      console.error(err);
+      console.error("Error saat ambil distribusi:", err);
       toast.error("Gagal mengambil histori distribusi.");
     } finally {
       setLoading(false);
@@ -43,7 +44,7 @@ export default function DistributionHistory() {
     fetchHistory();
   }, [contract]);
 
-  useEffect(() => {
+  const filtered = useMemo(() => {
     let result = [...distributions];
 
     if (search) {
@@ -56,7 +57,7 @@ export default function DistributionHistory() {
       result = result.filter((item) => parseFloat(item.amount) >= parseFloat(minAmount));
     }
 
-    setFiltered(result);
+    return result;
   }, [search, minAmount, distributions]);
 
   const exportPDF = () => {
@@ -134,6 +135,7 @@ export default function DistributionHistory() {
                       <a
                         href={item.ipfsUrl}
                         target="_blank"
+                        rel="noopener noreferrer"
                         className="text-blue-600 underline"
                       >
                         View PDF
