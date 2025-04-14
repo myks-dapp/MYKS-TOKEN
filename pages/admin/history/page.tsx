@@ -23,14 +23,10 @@ export default function DistributionHistory() {
   const [loading, setLoading] = useState(false);
 
   const fetchHistory = async () => {
-    if (!contract?.contract) return;
+    if (!contract) return;
 
-    try {
-      setLoading(true);
-
-      // Akses langsung dari ethers.Contract
-      const filter = contract.contract.filters?.ProfitDistributed();
-      const events = await contract.contract.queryFilter(filter);
+const filter = contract.filters?.ProfitDistributed();
+const events = await contract.queryFilter(filter);
 
       const history: Distribution[] = events.map((event) => ({
         amount: (parseInt(event.args?.[0]) / 1e6).toFixed(2),
