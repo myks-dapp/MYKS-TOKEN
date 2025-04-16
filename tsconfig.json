@@ -15,7 +15,8 @@
     "baseUrl": ".",
     "paths": {
       "@/components/*": ["components/*"],
-      "@/app/*": ["app/*"]
+      "@/app/*": ["app/*"],
+      "@/lib/*": ["lib/*"]  // Menambahkan alias untuk folder lib
     }
   },
   "include": [
