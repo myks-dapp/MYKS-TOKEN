@@ -1,12 +1,18 @@
 'use client';
 
-import { useAddress, useMetamask, useContract, useToken, useTokenBalance } from '@thirdweb-dev/react';
-import { TOKEN_CONTRACT, SALE_CONTRACT } from '../constants/contracts';
-import { Token } from '@thirdweb-dev/sdk';
+import {
+  useAddress,
+  useMetamask,
+  useContract,
+  useToken,
+  useTokenBalance,
+} from '@thirdweb-dev/react';
 import { useEffect, useState } from 'react';
 import TokenInfo from '@/components/TokenInfo';
 import BuyForm from '@/components/BuyForm';
 import LoadingContracts from '@/components/LoadingContracts';
+import { TOKEN_CONTRACT, SALE_CONTRACT } from '@/constants/contracts';
+import { Token } from '@thirdweb-dev/sdk';
 
 type Phase = {
   name: string;
@@ -43,43 +49,21 @@ export default function BuyPage() {
   const address = useAddress();
   const connect = useMetamask();
 
-  // Fetch token contract data
-  const tokenData = useToken(TOKEN_CONTRACT);
-  const tokenContract = tokenData?.contract;
-  const loadingToken = tokenData?.isLoading;
-
-  // Fetch sale contract data
+  // FIXED: langsung destructuring hasil dari useToken
+  const { data: tokenContract, isLoading: loadingToken } = useToken(TOKEN_CONTRACT);
   const { contract: saleContract, isLoading: loadingSale } = useContract(SALE_CONTRACT);
-  
-  // Fetch token balance
+
   const { data: balance } = useTokenBalance(tokenContract, address);
 
-  // Manage presale phase and amount
   const [phase, setPhase] = useState<Phase | null>(null);
   const [amount, setAmount] = useState<number>(1);
-  
-  // Set current phase based on the current date
+
   useEffect(() => {
     const now = Date.now();
     const current = getCurrentPhase(now);
     setPhase(current);
   }, []);
 
-  // Load token metadata
-  const [tokenName, setTokenName] = useState("");
-  const [tokenSymbol, setTokenSymbol] = useState("");
-
-  useEffect(() => {
-    if (tokenContract) {
-      (async () => {
-        const metadata = await tokenContract.get();
-        setTokenName(metadata.name);
-        setTokenSymbol(metadata.symbol);
-      })();
-    }
-  }, [tokenContract]);
-
-  // Show loading message if contracts or token data are still loading
   if (!tokenContract || !saleContract || loadingToken || loadingSale) {
     return <LoadingContracts />;
   }
@@ -87,7 +71,7 @@ export default function BuyPage() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-gray-50">
       <h1 className="text-3xl font-bold text-center text-green-700 mb-6">
-        Buy {tokenName || "MYKS"} Tokens
+        Buy MYKS Tokens
       </h1>
 
       {phase ? (
