@@ -1,7 +1,0 @@
-// src/constants/contracts.ts
-
-export const TOKEN_CONTRACT = "0xbae14e5a05030f6Bcff900Be3C02A260C96e5D6c"; // MYKS Token
-export const SALE_CONTRACT = "0xdE36A031F39515E5A4D2700cbCc8837045667Dd7"; // MYKSSale
-export const PROFIT_CLAIMER_CONTRACT = "0xd8aE347c5155241164F0A727b308Abc417bf6321"; // MYKSProfitClaimer
-export const PROFIT_DISTRIBUTOR_CONTRACT = "0x233C286dc2Dd6baAA4597CffBcC9080Cb96452a1"; // MYKSProfitDistributor
-export const OWNER_WALLET = "0x8cDf6d7f383D69A4800eA035E35eD440a8054Ca8"; // Owner Wallet Address
