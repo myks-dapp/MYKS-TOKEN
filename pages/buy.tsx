@@ -8,11 +8,11 @@ import {
   useTokenBalance,
 } from '@thirdweb-dev/react';
 import { useEffect, useState } from 'react';
+import { Token } from '@thirdweb-dev/sdk';
+import { TOKEN_CONTRACT, SALE_CONTRACT } from '@/constants/contracts';
 import TokenInfo from '@/components/TokenInfo';
 import BuyForm from '@/components/BuyForm';
 import LoadingContracts from '@/components/LoadingContracts';
-import { TOKEN_CONTRACT, SALE_CONTRACT } from '@/constants/contracts';
-import { Token } from '@thirdweb-dev/sdk';
 
 type Phase = {
   name: string;
@@ -49,9 +49,18 @@ export default function BuyPage() {
   const address = useAddress();
   const connect = useMetamask();
 
-  // FIXED: langsung destructuring hasil dari useToken
-  const { data: tokenContract, isLoading: loadingToken } = useToken(TOKEN_CONTRACT);
-  const { contract: saleContract, isLoading: loadingSale } = useContract(SALE_CONTRACT);
+  const tokenData = useToken(TOKEN_CONTRACT) as {
+    contract: Token | undefined;
+    isLoading: boolean;
+  };
+
+  const tokenContract = tokenData.contract;
+  const loadingToken = tokenData.isLoading;
+
+  const {
+    contract: saleContract,
+    isLoading: loadingSale,
+  } = useContract(SALE_CONTRACT);
 
   const { data: balance } = useTokenBalance(tokenContract, address);
 
