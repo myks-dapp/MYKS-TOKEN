@@ -12,6 +12,7 @@
     "@thirdweb-dev/storage": "^2.0.15",
     "axios": "^1.8.4",
     "ethers": "^5.7.2",
+    "react-toastify": "^9.0.0",
     "framer-motion": "^12.6.5",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.4.0",
