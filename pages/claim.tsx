@@ -6,6 +6,7 @@ import {
   useContractRead,
   useContractWrite,
 } from "@thirdweb-dev/react";
+import { MYKS_CONTRACT } from "@/constants/contracts";
 import { useState } from "react";
 
 const CLAIM_CONTRACT_ADDRESS = "0xd8aE347c5155241164F0A727b308Abc417bf6321";
