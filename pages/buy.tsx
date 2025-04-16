@@ -8,6 +8,7 @@ import {
   useToken,
 } from '@thirdweb-dev/react';
 import { useEffect, useState } from 'react';
+import { MYKS_CONTRACT } from "@/constants/contracts";
 import TokenInfo from '@/components/TokenInfo';
 import BuyForm from '@/components/BuyForm';
 import LoadingContracts from '@/components/LoadingContracts';
