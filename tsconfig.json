@@ -17,7 +17,8 @@
       "@/components/*": ["components/*"],
       "@/app/*": ["app/*"],
       "@/lib/*": ["lib/*"],
-      "@/styles/*": ["styles/*"]
+      "@/styles/*": ["styles/*"],
+      "@/constants/*": ["src/constants/*"]
     }
   },
   "include": [
