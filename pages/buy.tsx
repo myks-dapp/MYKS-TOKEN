@@ -50,7 +50,10 @@ export default function BuyPage() {
   const address = useAddress();
   const connect = useMetamask();
 
-  const { contract: tokenContract, isLoading: loadingToken } = useToken(TOKEN_CONTRACT);
+  const tokenResult = useToken(TOKEN_CONTRACT);
+  const tokenContract = tokenResult?.contract;
+  const loadingToken = tokenResult?.isLoading;
+
   const { contract: saleContract, isLoading: loadingSale } = useContract(SALE_CONTRACT);
   const { data: balance } = useTokenBalance(tokenContract, address);
 
