@@ -16,7 +16,8 @@
     "paths": {
       "@/components/*": ["components/*"],
       "@/app/*": ["app/*"],
-      "@/lib/*": ["lib/*"]
+      "@/lib/*": ["lib/*"],
+      "@/styles/*": ["styles/*"]
     }
   },
   "include": [
