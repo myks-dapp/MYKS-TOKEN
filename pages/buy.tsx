@@ -1,3 +1,4 @@
+// pages/buy.tsx
 'use client';
 
 import {
@@ -8,14 +9,10 @@ import {
   useToken,
 } from '@thirdweb-dev/react';
 import { useEffect, useState } from 'react';
-import { MYKS_CONTRACT } from "@/constants/contracts";
+import { MYKS_CONTRACT, TOKEN_CONTRACT, SALE_CONTRACT } from '@/constants/contracts';
 import TokenInfo from '@/components/TokenInfo';
 import BuyForm from '@/components/BuyForm';
 import LoadingContracts from '@/components/LoadingContracts';
-import {
-  TOKEN_CONTRACT,
-  SALE_CONTRACT,
-} from '@/constants/contracts';
 import { Token } from '@thirdweb-dev/sdk';
 
 type Phase = {
@@ -53,14 +50,7 @@ export default function BuyPage() {
   const address = useAddress();
   const connect = useMetamask();
 
-  const tokenData = useToken(TOKEN_CONTRACT) as {
-    contract: Token | undefined;
-    isLoading: boolean;
-  };
-
-  const tokenContract = tokenData.contract;
-  const loadingToken = tokenData.isLoading;
-
+  const { contract: tokenContract, isLoading: loadingToken } = useToken(TOKEN_CONTRACT);
   const { contract: saleContract, isLoading: loadingSale } = useContract(SALE_CONTRACT);
   const { data: balance } = useTokenBalance(tokenContract, address);
 
